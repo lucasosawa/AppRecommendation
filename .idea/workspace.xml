@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="601bf489-21ed-4d01-a3d4-8e208a09be77" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/components/Onboarding.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Onboarding.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/OnboardingItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/OnboardingItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slides.js" beforeDir="false" afterPath="$PROJECT_DIR$/slides.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1rlk6C9Gtqy7CDOuIKMNtLs5foQ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="601bf489-21ed-4d01-a3d4-8e208a09be77" name="Default Changelist" comment="" />
+      <created>1619557885915</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619557885915</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="200" y="120" width="1200" height="620" maximized="true" key="AVDManager" timestamp="1619561695050">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="200" y="120" width="1200" height="620" maximized="true" key="AVDManager/0.0.1600.860/1600.-9.1600.860@0.0.1600.860" timestamp="1619561695050" />
+  </component>
+</project>
