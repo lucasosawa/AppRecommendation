@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="601bf489-21ed-4d01-a3d4-8e208a09be77" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Onboarding.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Onboarding.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/OnboardingItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/OnboardingItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slides.js" beforeDir="false" afterPath="$PROJECT_DIR$/slides.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Paginator.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Paginator.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,9 +39,9 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="200" y="120" width="1200" height="620" maximized="true" key="AVDManager" timestamp="1619561695050">
+    <state x="200" y="120" width="1200" height="620" key="AVDManager" timestamp="1621791124872">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="200" y="120" width="1200" height="620" maximized="true" key="AVDManager/0.0.1600.860/1600.-9.1600.860@0.0.1600.860" timestamp="1619561695050" />
+    <state x="200" y="120" width="1200" height="620" key="AVDManager/0.0.1600.860/1600.-9.1600.860@0.0.1600.860" timestamp="1621791124872" />
   </component>
 </project>

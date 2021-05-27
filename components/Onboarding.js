@@ -24,7 +24,7 @@ export default Onboarding = () => {
                 data = {slides} 
                 renderItem={({ item }) => <OnboardingItem item ={item} />} 
                 horizontal
-                showsHorizontalScrollIndicator
+                showsHorizontalScrollIndicator = {false}
                 pagingEnabled
                 bounces ={false}
                 onScroll={Animated.event([{ nativeEvent: {contentOffset: { x: scrollX} } } ],{
@@ -36,7 +36,7 @@ export default Onboarding = () => {
                 ref={slidesRef}
             />
             </View>
-            <Paginator data = {slides}/>
+            <Paginator data = {slides} scrollX={scrollX}/>
         </View>
         
     );
