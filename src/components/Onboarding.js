@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Animated } from "react-native";
 
-import OnboardingItem from '../components/OnboardingItem';
-import Paginator from '../components/Paginator';
+import OnboardingItem from './OnboardingItem';
+import Paginator from './Paginator';
 import slides from '../slides';
-import NextButton from '../components/NextButton';
+import NextButton from './NextButton';
 
 export default Onboarding = () => {
    
