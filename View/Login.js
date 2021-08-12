@@ -1,5 +1,6 @@
 
 import React,{useState, useEffect} from 'react';
+import api from "../services/api";
 import {
   View, 
   KeyboardAvoidingView, 
@@ -20,6 +21,27 @@ export default function Login({ navigation }){
   const [offset]= useState(new Animated.ValueXY({x: 0, y: 95}));
   const [opacity] = useState(new Animated.Value(0));
   const [logo] = useState(new Animated.ValueXY({x: 130,y: 155}));
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  async function post(){
+    try {
+      const response = api.post('/auth/login', {
+        email: email,
+        password: password
+      })
+          .then(function (response) {
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+    }catch (e) {
+      console.log(e);
+    }
+
+  }
 
   useEffect(()=>{
     keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow);
@@ -39,6 +61,8 @@ export default function Login({ navigation }){
 
   }, []);
 
+
+
   function keyboardDidShow(){
     Animated.parallel([
       Animated.timing(logo.x,{
@@ -51,7 +75,7 @@ export default function Login({ navigation }){
     })
   ]).start();
   }
-  
+
   function keyboardDidHide(){
     Animated.parallel([
       Animated.timing(logo.x,{
@@ -64,7 +88,6 @@ export default function Login({ navigation }){
     })
   ]).start();
   }
-
   //===============retorno vaiaveis============== 
   return(
     <KeyboardAvoidingView style={styles.background}>
@@ -92,17 +115,19 @@ export default function Login({ navigation }){
         style={styles.input}
         placeholder="Email"
         autoCorrect={false}
-        onChangeText={()=>{}}
+        value={email}
+        onChangeText={(value)=>setEmail(value)}
         />
 
          <TextInput
         style={styles.input} 
         placeholder="Senha"
         autoCorrect={false}
-        onChangeText={()=>{}}
+        value={password}
+        onChangeText={(value)=>setPassword(value)}
         />
 
-        <TouchableOpacity style={styles.btnSubmit}>
+        <TouchableOpacity style={styles.btnSubmit} onPress={post}>
           <Text style={styles.submitText}>Acessar</Text>
         </TouchableOpacity>
 
