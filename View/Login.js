@@ -1,5 +1,6 @@
 
 import React,{useState, useEffect} from 'react';
+import {StatusBar, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
 import api from "../services/api";
 import {
   View, 
@@ -21,24 +22,50 @@ export default function Login({ navigation }){
   const [offset]= useState(new Animated.ValueXY({x: 0, y: 95}));
   const [opacity] = useState(new Animated.Value(0));
   const [logo] = useState(new Animated.ValueXY({x: 130,y: 155}));
+  const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
+  async function saveUser(user) {
+    await AsyncStorage.setItem('@ListApp:userToken', JSON.stringify(user));
+
+  }
+
   async function post(){
+    if (email.length === 0) return
+
+    setLoading(true)
+
     try {
-      const response = api.post('/auth/login', {
+      const credentials = {
         email: email,
         password: password
-      })
+      }
+
+      const response = api.post('/auth/login', credentials)
           .then(function (response) {
+            // return response.data;
             console.log(response.data);
           })
           .catch(function (error) {
             console.log(error);
           });
+      const user = response.data;
+      await saveUser(user);
 
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'App' })],
+      })
+
+      setLoading(false)
+
+      props.navigation.dispatch(resetAction)
     }catch (e) {
       console.log(e);
+      setLoading(false)
+
+      Alert('Usuário não existe');
     }
 
   }

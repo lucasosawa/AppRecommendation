@@ -5,15 +5,80 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Login from './View/Login';
 
-const Stack = createStackNavigator();
+import Onboarding
+    from './View/components/Onboarding';
 
-export default function App() {
-return(
-  <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" headerMode="none">
-      <Stack.Screen name="Login" component={Login} />
-      </Stack.Navigator>
-  </NavigationContainer>
+import { AuthContext } from "./View/Context";
+
+const OnboardingStack = createStackNavigator();
+const OnboardingScreen = () => (
+    <OnboardingStack.Navigator initialRouteName="Onboarding">
+        <OnboardingStack.Screen name="Onboarding" component={Onboarding} />
+    </OnboardingStack.Navigator>
 );
 
-}
+const createLogin = createStackNavigator();
+const loginStackScreen = () => (
+    <createLogin.Navigator  headerMode="none">
+        <createLogin.Screen name="LoginScreen" component={Login} />
+    </createLogin.Navigator>
+);
+
+const RootStack = createStackNavigator();
+const RootStackScreen = ({ userToken }) => (
+    <RootStack.Navigator headerMode="none">
+        {userToken ? (
+            <RootStack.Screen
+                name="App"
+                component={OnboardingScreen}
+                options={{
+                    animationEnabled: false
+                }}
+            />
+        ) : (
+            <RootStack.Screen
+                name="Login"
+                component={loginStackScreen}
+                options={{
+                    animationEnabled: false
+                }}
+            />
+        )}
+    </RootStack.Navigator>
+);
+
+export default () => {
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [userToken, setUserToken] = React.useState(null);
+
+    const authContext = React.useMemo(() => {
+        return {
+            signIn: () => {
+                setIsLoading(false);
+                setUserToken("asdf");
+            },
+            signUp: () => {
+                setIsLoading(false);
+                setUserToken("asdf");
+            },
+            signOut: () => {
+                setIsLoading(false);
+                setUserToken(null);
+            }
+        };
+    }, []);
+
+    React.useEffect(() => {
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+    }, []);
+
+    return (
+        <AuthContext.Provider value={authContext}>
+            <NavigationContainer>
+                <RootStackScreen userToken={userToken} />
+            </NavigationContainer>
+        </AuthContext.Provider>
+    );
+};
