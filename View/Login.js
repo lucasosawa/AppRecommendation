@@ -1,23 +1,25 @@
 
 import React,{useState, useEffect} from 'react';
-import {StatusBar, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
+import {StatusBar, ActivityIndicator, Alert} from 'react-native';
 import api from "../services/api";
+import {getToken, isAuthenticated, login, logout} from "./components/Auth";
 import {
-  View, 
-  KeyboardAvoidingView, 
-  Image, 
-  TextInput, 
-  TouchableOpacity, 
-  Text, 
-  StyleSheet, 
-  Animated, 
+  View,
+  KeyboardAvoidingView,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Animated,
   Keyboard} from 'react-native';
- 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function Login({ navigation }){
 
-  
+ function Login({ navigation }){
+
+
   //=============script animação============
   const [offset]= useState(new Animated.ValueXY({x: 0, y: 95}));
   const [opacity] = useState(new Animated.Value(0));
@@ -26,46 +28,38 @@ export default function Login({ navigation }){
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  async function saveUser(user) {
-    await AsyncStorage.setItem('@ListApp:userToken', JSON.stringify(user));
 
-  }
 
-  async function post(){
-    if (email.length === 0) return
 
-    setLoading(true)
 
+     async function post(){
     try {
-      const credentials = {
-        email: email,
-        password: password
-      }
-
-      const response = api.post('/auth/login', credentials)
-          .then(function (response) {
+      const response = await api.post('/auth/login', {
+          'email': email,
+          'password': password
+      })
+          .then((response)=> {
             // return response.data;
-            console.log(response.data);
+              const login_user = async () => await AsyncStorage.getItem('token_user').then(response => {
+                  console.log(response);
+              });
+              login_user();
+              login(response.data.access_token);
+              const get_token = async () => await AsyncStorage.getItem('token_user').then(response => {
+                  console.log(response);
+                  navigation.push("OnboardingScreen", { name: "OnboardingScreen" })
+              });
+            // const user = response.data;
+              get_token();
+
           })
           .catch(function (error) {
+            alert('erro');
             console.log(error);
           });
-      const user = response.data;
-      await saveUser(user);
-
-      const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'App' })],
-      })
-
-      setLoading(false)
-
-      props.navigation.dispatch(resetAction)
     }catch (e) {
       console.log(e);
-      setLoading(false)
-
-      Alert('Usuário não existe');
+      alert('erro');
     }
 
   }
@@ -115,7 +109,7 @@ export default function Login({ navigation }){
     })
   ]).start();
   }
-  //===============retorno vaiaveis============== 
+  //===============retorno vaiaveis==============
   return(
     <KeyboardAvoidingView style={styles.background}>
       <View style={styles.containerLogo}>
@@ -128,7 +122,7 @@ export default function Login({ navigation }){
         />
       </View>
 
-      <Animated.View 
+      <Animated.View
       style={[styles.container,
       {
         opacity: opacity,
@@ -147,13 +141,13 @@ export default function Login({ navigation }){
         />
 
          <TextInput
-        style={styles.input} 
+        style={styles.input}
         placeholder="Senha"
         autoCorrect={false}
         value={password}
         onChangeText={(value)=>setPassword(value)}
         />
-
+          {/*{alert(getToken())}*/}
         <TouchableOpacity style={styles.btnSubmit} onPress={post}>
           <Text style={styles.submitText}>Acessar</Text>
         </TouchableOpacity>
@@ -161,11 +155,13 @@ export default function Login({ navigation }){
         <TouchableOpacity style={styles.btnRegister}>
           <Text style={styles.registerText}>Criar</Text>
         </TouchableOpacity>
-        
+
       </Animated.View>
     </KeyboardAvoidingView>
   );
 }
+
+export default Login;
 
 //===========styles===========
 const styles = StyleSheet.create({
@@ -197,7 +193,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     padding: 10,
     },
-    
+
     btnSubmit:{
       backgroundColor:'#35AAFF',
       width:'90%',
@@ -215,7 +211,7 @@ const styles = StyleSheet.create({
     },
     registerText:{
       color:'#FFF',
-      
+
     }
 
 });

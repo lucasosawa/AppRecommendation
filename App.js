@@ -9,6 +9,10 @@ import Onboarding
     from './View/components/Onboarding';
 
 import { AuthContext } from "./View/Context";
+import {getToken, isAuthenticated, logout} from "./View/components/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
 
 const OnboardingStack = createStackNavigator();
 const OnboardingScreen = () => (
@@ -25,11 +29,11 @@ const loginStackScreen = () => (
 );
 
 const RootStack = createStackNavigator();
-const RootStackScreen = ({ userToken }) => (
-    <RootStack.Navigator headerMode="none">
+const RootStackScreen = ({userToken}) => (
+    <RootStack.Navigator headerShown="none">
         {userToken ? (
             <RootStack.Screen
-                name="App"
+                name="OnboardingScreen"
                 component={OnboardingScreen}
                 options={{
                     animationEnabled: false
@@ -55,15 +59,17 @@ export default () => {
         return {
             signIn: () => {
                 setIsLoading(false);
-                setUserToken("asdf");
+                AsyncStorage.getItem('token_user').then(response => {
+                    setUserToken(response);
+                });
             },
             signUp: () => {
                 setIsLoading(false);
-                setUserToken("asdf");
+                // setUserToken("asdf");
             },
             signOut: () => {
                 setIsLoading(false);
-                setUserToken(null);
+                logout();
             }
         };
     }, []);

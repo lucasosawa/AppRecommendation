@@ -7,6 +7,7 @@ import slides from './slides';
 import NextButton from './NextButton';
 
 import { AuthContext } from "../Context";
+import {getToken, isAuthenticated, logout} from "./Auth";
 
 function Onboarding ( { navigation } ) {
    
@@ -25,7 +26,9 @@ function Onboarding ( { navigation } ) {
             slidesRef.current.scrollToIndex({ index: currentIndex + 1});
         }
         else{
-            navigation.push("Login", { name: "Login" })
+            logout();
+            // navigation.push("Login", { name: "Login" })
+            // console.log(getToken());
         }
     };
 
