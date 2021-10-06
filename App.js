@@ -1,90 +1,60 @@
-import React from 'react';
+import React, { Component } from 'react'
+import { Text, View } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { FontAwesome } from '@expo/vector-icons';
 
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import Perfil from './View/components/Screens/Perfil'
+import Login from './View/components/Screens/Login'
+import Home from './View/components/Screens/Home'
+import Company from './View/components/Screens/Company'
+import Search from './View/components/Screens/Search'
 
-import Login from './View/Login';
-
-import Onboarding
-    from './View/components/Onboarding';
-
-import { AuthContext } from "./View/Context";
-import {getToken, isAuthenticated, logout} from "./View/components/Auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+const HomeStack = createStackNavigator()
+const BottomStack = createBottomTabNavigator()
 
 
 
-const OnboardingStack = createStackNavigator();
-const OnboardingScreen = () => (
-    <OnboardingStack.Navigator initialRouteName="Onboarding">
-        <OnboardingStack.Screen name="Onboarding" component={Onboarding} />
-    </OnboardingStack.Navigator>
-);
+export default class App extends Component {
 
-const createLogin = createStackNavigator();
-const loginStackScreen = () => (
-    <createLogin.Navigator  headerMode="none">
-        <createLogin.Screen name="LoginScreen" component={Login} />
-    </createLogin.Navigator>
-);
+  constructor(props){
+    super(props)
+  }
 
-const RootStack = createStackNavigator();
-const RootStackScreen = ({userToken}) => (
-    <RootStack.Navigator headerShown="none">
-        {userToken ? (
-            <RootStack.Screen
-                name="OnboardingScreen"
-                component={OnboardingScreen}
-                options={{
-                    animationEnabled: false
-                }}
-            />
-        ) : (
-            <RootStack.Screen
-                name="Login"
-                component={loginStackScreen}
-                options={{
-                    animationEnabled: false
-                }}
-            />
-        )}
-    </RootStack.Navigator>
-);
-
-export default () => {
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [userToken, setUserToken] = React.useState(null);
-
-    const authContext = React.useMemo(() => {
-        return {
-            signIn: () => {
-                setIsLoading(false);
-                AsyncStorage.getItem('token_user').then(response => {
-                    setUserToken(response);
-                });
-            },
-            signUp: () => {
-                setIsLoading(false);
-                // setUserToken("asdf");
-            },
-            signOut: () => {
-                setIsLoading(false);
-                logout();
-            }
-        };
-    }, []);
-
-    React.useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 1000);
-    }, []);
-
+  render() {
     return (
-        <AuthContext.Provider value={authContext}>
-            <NavigationContainer>
-                <RootStackScreen userToken={userToken} />
-            </NavigationContainer>
-        </AuthContext.Provider>
-    );
-};
+        // <Login/>
+        <NavigationContainer>
+          <BottomStack.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName;
+
+                if (route.name === 'Home') {
+                  iconName = 'home'
+                } else if (route.name === 'Perfil') {
+                  iconName = 'user'
+                } else if (route.name === 'Company') {
+                  iconName = 'gamepad'
+                } else if (route.name === 'Search') {
+                  iconName = 'search'
+                }
+
+                // You can return any component that you like here!
+                return <FontAwesome name={iconName} size={size} color={color}/>;
+              },
+              tabBarActiveTintColor: '#7bdbbe',
+              tabBarInactiveTintColor: 'gray',
+            })}
+          >
+            <BottomStack.Screen name="Home" component={Home} options={{title:'Home'}}/>
+            <BottomStack.Screen name="Perfil" component={Perfil} options={{title:'Perfil'}}/>
+            <BottomStack.Screen name="Company" component={Company} options={{title:'Company'}}/>
+            <BottomStack.Screen name="Search" component={Search} options={{title:'Search'}}/>
+          </BottomStack.Navigator>
+        </NavigationContainer>
+    )
+  }
+}
+

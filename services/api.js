@@ -5,7 +5,6 @@ const api = axios.create({
     baseURL:"https://gdev-skills.herokuapp.com/api",
 });
 
-
 api.interceptors.response.use(
     async config =>{
         const token = getToken();
