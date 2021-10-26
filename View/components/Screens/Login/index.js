@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import { Text, View, Image, SafeAreaView, StyleSheet,  TouchableOpacity, placeholderTextColor} from 'react-native'
 import { Button, TextInput, HelperText } from 'react-native-paper'
 import { loginStyles } from './styles'
-
+import { AuthContext } from '../../../../helpers/authentication/AuthContext'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 export default class index extends Component {
+
+    static contextType = AuthContext
 
     constructor(props){
         super(props)
@@ -33,6 +36,12 @@ export default class index extends Component {
             this.setState({
                 passwordError : false
             })
+        }
+
+        if(this.state.emailValue != null && this.state.passwordValue != ''){
+            
+            AsyncStorage.setItem('userToken', "123456")
+            this.context.signIn(this.state.emailValue, this.state.passwordValue)
             
         }
     }
