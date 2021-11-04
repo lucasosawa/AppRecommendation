@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, FlatList, SafeAreaView, Alert } from 'react-nat
 import { Avatar, Card } from 'react-native-paper'
 import { homeStyles } from './styles'
 import { DoFetchRequest } from '../../../../helpers/API/ApiManager'
-import { TOUCHABLE_STATE } from 'react-native-gesture-handler/lib/typescript/components/touchables/GenericTouchable'
 export default class index extends Component {
 
     constructor(props){
