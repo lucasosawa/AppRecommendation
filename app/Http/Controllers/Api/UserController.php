@@ -30,15 +30,17 @@ class UserController extends Controller
         }
     }
 
-    public function signin(Request $request)
-    {
+    public function userList($status, $role){
+//         return response()->json($role);
+        $users = User::where('status', $status)->where('role', $role)->get();
 
-        return response()->json(['message'=> 'Signin successful']);
+        return response()->json($users);
+
     }
 
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     public function destroy($id)
