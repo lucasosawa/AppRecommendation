@@ -21,7 +21,7 @@ class CreateCompanyProfileTable extends Migration
             $table->varchar('telephone', 20);
             $table->string('category');
             $table->number('size');
-            $table->string('head office');
+            $table->string('headOffice');
             $table->string('adress');
             $table->date('founded');
             $table->string('specialty');
