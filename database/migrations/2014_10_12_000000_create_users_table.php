@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('age');
             $table->string('about');
+            $table->string('role');
+            $table->string('status');
             $table->varchar('telephone', 20);
             $table->string('AcademicEducation');
             $table->string('interest');
