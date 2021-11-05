@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { Text, View, Image, SafeAreaView, StyleSheet,  TouchableOpacity, placeholderTextColor} from 'react-native'
+import { Text, View, Image, SafeAreaView, StyleSheet,  TouchableOpacity, placeholderTextColor, Alert} from 'react-native'
 import { Button, TextInput, HelperText } from 'react-native-paper'
 import { loginStyles } from './styles'
 import { AuthContext } from '../../../../helpers/authentication/AuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { DoFetchRequest } from '../../../../helpers/API/ApiManager'
+import api from '../../../../helpers/API/api'
+import axios from 'axios'
 export default class index extends Component {
 
     static contextType = AuthContext
@@ -14,7 +17,7 @@ export default class index extends Component {
         this.state = {emailError : false, emailValue: '', passwordError: false, passwordValue: ''}
     }
 
-    loginButtonPressed = () => {
+    loginButtonPressed = async () => {
 
         if(this.state.emailValue == '' ){
             this.setState({
@@ -37,12 +40,25 @@ export default class index extends Component {
                 passwordError : false
             })
         }
+        
+    
 
-        if(this.state.emailValue != null && this.state.passwordValue != ''){
-            
-            AsyncStorage.setItem('userToken', "123456")
-            this.context.signIn(this.state.emailValue, this.state.passwordValue)
-            
+        if(this.state.emailValue != null && this.state.passwordValue != '') {
+            const form = new FormData();
+            form.append('email', this.state.emailValue)
+            form.append('password', this.state.passwordValue)
+            await api.post('auth/login', form)
+            .then((response) => {
+                console.log(response.data.access_token)
+                console.log(this.state.emailValue)
+                console.log(response.data.error);
+                if(response.data.error == '401'){
+                    Alert.alert('Email ou senha invalido.')
+                }else{
+                    AsyncStorage.setItem('userToken', response.data.access_token)
+                    this.context.signIn(response.data.access_token)
+                }
+            }).catch((error)=>{console.log(error)})
         }
     }
 

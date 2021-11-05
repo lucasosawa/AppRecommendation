@@ -1,95 +1,105 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Alert } from 'react-native'
-import { Avatar, Card } from 'react-native-paper'
-import { homeStyles } from './styles'
-import { DoFetchRequest } from '../../../../helpers/API/ApiManager'
-export default class index extends Component {
+import { ActivityIndicator, Avatar, Card } from 'react-native-paper'
+import { loginStyles } from './styles'
+import axios from 'axios'
 
-    constructor(props){
-        super(props)
+export default function index() {
+    
+    const [error, setError] = useState('');
+    const [feed, setFeed] = useState([]);
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(0);
+    const [viewable, setViewable] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
-        this.state = {userList:[] , isListRefreshing:false}
-        
-        pageIndex = 1
-    }
-
-    componentDidMount(){
-        this.GetUsersList()
-    } 
-
-    renderRowItem = (rowItem) =>{
+    renderRowItem = (item) =>{
         return(
-            <Card style={{margin:'2%'}} onPress={() => this.GoToPerfil(rowItem.item.id)}>
+            <Card style={{margin:'2%'}} onPress={() => this.GoToPerfil(item.id)}>
                 <View style={{alignItems:'center', margin:'2%'}}>
-                    <Avatar.Image size={150} source={{uri:rowItem.item.avatar}}/>
+                    <Avatar.Image size={150} source={{uri:item.avatar}}/>
                     <View style={{alignSelf:'center', margin:'5%', alignItems:'center', marginTop:'2%'}}>
-                            <Text style={{fontSize:20,}}>{rowItem.item.first_name}</Text>
-                            <Text style={{fontSize:15,}}>{rowItem.item.email}</Text>
+                            <Text style={{fontSize:20,}}>{item.first_name}</Text>
+                            <Text style={{fontSize:15,}}>{item.email}</Text>
                     </View>
                 </View>
             </Card>
         )
     }
 
-    rowItemSeparator = () => {
-        return(
-            <View style = {{height:1, backgroundColor:'grey', marginLeft:'5%'}}/>
-        )
+    // GetUsersList = async () => {
+    //     var usersurl = 'http://gdevskills.test/api/users/1/admin'
+
+    //     await axios.get(usersurl)
+    //     .then((response) => {
+    //     console.log(response)
+    //     //     this.setState({
+    //     //         userList:[...this.state.userList, {...response.data}],
+    //     //     })
+    //     //     console.log(this.state.userList);
+    //     }).catch((error)=>{console.log(error)})
+    // }
+
+    async function loadPage(pageNumber = page, shouldRefresh = false) {
+        if (pageNumber === total) return;
+        if (loading) return;
         
-    }
-
-    GetUsersList = async () => {
-
-        var usersurl = 'http://reqres.in/api/users?page=' + pageIndex
-
-        const usersList = await DoFetchRequest(usersurl, 'GET')
-        console.log('UsersList response', usersList)
-        if(usersList.success){
-            this.setState({
-                userList: this.state.userList.concat(usersList.response.data),
-            })
-        }
-        else {
-            Alert.alert(usersList)
-        }
-        
-    }
-
-    LoadMoreUsers = () =>{
-        pageIndex= pageIndex+1
-        this.GetUsersList()
-    }
-
-    refreshUsersList = () =>{
-        pageIndex = 1
-        this.setState({
-            userList: [],
-            isListRefreshing:true
+        setLoading(true);
+        axios
+        .get(`https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=1&limit=4`)
+        .then(response => {
+            const totalItems = response.headers["x-total-count"]
+            const data = response.data
+            console.log(data)
+            setLoading(false)
+            setTotal(Math.floor(totalItems / 4));
+            setPage(pageNumber + 1);
+            setFeed(shouldRefresh ? data : [...feed, ...data]);
         })
-        this.GetUsersList()
+        .catch(err => {
+            setError(err.message);
+            setLoading(true)
+        })
     }
 
-    GoToPerfil =( selectedUser ) =>{
-        console.log("selected user", selectedUser)
-        this.props.navigation.navigate('SearchProfile', selectedUser)
-    }
+    async function refreshList() {
+        setRefreshing(true);
+        
+        await loadPage(1, true);
 
-    render(){
+        setRefreshing(false);
+    }
+    
+    useEffect(() => {
+        loadPage()
+    }, []);
+
+    const handleViewableChanged = useCallback(({ changed }) => {
+        setViewable(viewable.map(({ item }) => item.id));
+    }, []);
+
     return (
-            <SafeAreaView style={homeStyles.parentSafeView}>
-                <View style={homeStyles.parentSafeView}>
-                    <FlatList 
-                        data={this.state.userList} 
-                        renderItem ={this.renderRowItem}
-                        onEndReached={this.LoadMoreUsers}
+            <SafeAreaView style={loginStyles.container}>
+                <View style={loginStyles.container}>
+                    <FlatList
+                        key="list"
+                        data={feed} 
+                        renderItem ={renderRowItem}
+                        ListFooterComponent={loading && <ActivityIndicator style={{size: "small", marginTop: 20}}/>}
+                        onViewableItemsChanged={handleViewableChanged}
+                        viewabilityConfig={{
+                            viewAreaCoveragePercentThreshold: 10,
+                        }}
+                        showsVerticalScrollIndicator={false}
+                        onRefresh={refreshList}
+                        refreshing={refreshing}
+                        onEndReached={() => loadPage()}
                         onEndReachedThreshold={0.1}
-                        onRefresh={this.refreshUsersList}
-                        refreshing={this.state.isListRefreshing}
-                        keyExtractor={item => item.id.toString()}
                     />
                 </View>
             </SafeAreaView>
         )
     }
-}
+
 

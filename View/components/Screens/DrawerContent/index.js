@@ -63,6 +63,17 @@ export function CustomDrawerContent(props) {
                     />
                     <DrawerItem 
                         icon={({ color, size }) => (
+                            <FontAwesome 
+                            name="list-alt" 
+                            color={color} 
+                            size={size}
+                            />
+                        )}
+                        label="Vagas"
+                        onPress={() => /*signOut*/{}}
+                    />
+                    <DrawerItem 
+                        icon={({ color, size }) => (
                             <Ionicons 
                             name="settings" 
                             color={color} 
