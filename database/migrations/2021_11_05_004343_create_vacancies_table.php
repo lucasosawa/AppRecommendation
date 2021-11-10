@@ -22,6 +22,8 @@ class CreateVacanciesTable extends Migration
             $table->date('dateCreate');
             $table->date('dateEnd');
             $table->string('adress');
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('company_profile');
             $table->timestamps();
         });
     }

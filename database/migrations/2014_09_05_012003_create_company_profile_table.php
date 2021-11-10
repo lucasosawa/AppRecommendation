@@ -18,9 +18,9 @@ class CreateCompanyProfileTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->mediumText('about');
-            $table->varchar('telephone', 20);
+            $table->string('telephone', 20);
             $table->string('category');
-            $table->number('size');
+            $table->string('size');
             $table->string('headOffice');
             $table->string('adress');
             $table->date('founded');
