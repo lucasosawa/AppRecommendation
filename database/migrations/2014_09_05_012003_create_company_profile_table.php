@@ -25,7 +25,7 @@ class CreateCompanyProfileTable extends Migration
             $table->string('adress');
             $table->date('founded');
             $table->string('specialty');
-
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }

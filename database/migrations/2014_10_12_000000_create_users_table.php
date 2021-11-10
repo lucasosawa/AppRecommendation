@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('highlights');
             $table->string('gitHub');
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('company_profile');
             $table->rememberToken();
