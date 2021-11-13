@@ -4,19 +4,15 @@ import { Button, TextInput, HelperText } from 'react-native-paper'
 import { loginStyles } from './styles'
 import { AuthContext } from '../../../../helpers/authentication/AuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { DoFetchRequest } from '../../../../helpers/API/ApiManager'
 import api from '../../../../helpers/API/api'
-import axios from 'axios'
 export default class index extends Component {
-
     static contextType = AuthContext
 
     constructor(props){
         super(props)
-
         this.state = {emailError : false, emailValue: '', passwordError: false, passwordValue: ''}
     }
-
+    
     loginButtonPressed = async () => {
 
         if(this.state.emailValue == '' ){
@@ -40,9 +36,6 @@ export default class index extends Component {
                 passwordError : false
             })
         }
-        
-    
-
         if(this.state.emailValue != null && this.state.passwordValue != '') {
             const form = new FormData();
             form.append('email', this.state.emailValue)
@@ -131,13 +124,11 @@ export default class index extends Component {
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <TouchableOpacity style={loginStyles.button}>
-                            <Button mode="contained" color="#7bdbbe" marginTop="3%">Sign up</Button>
+                        <TouchableOpacity style={loginStyles.button} >
+                            <Button mode="contained" color="#7bdbbe" onPress={()=>this.props.navigation.navigate('Signup')} marginTop="3%">Sign up</Button>
                         </TouchableOpacity>
                     </View>
                 </View>
-                
-                
             </SafeAreaView>
         )
     }

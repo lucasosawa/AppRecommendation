@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, SafeAreaView, Alert } from 'react-nat
 import { ActivityIndicator, Avatar, Card } from 'react-native-paper'
 import { loginStyles } from './styles'
 import axios from 'axios'
+import api from '../../../../helpers/API/api'
 
 export default function index() {
     
@@ -13,20 +14,6 @@ export default function index() {
     const [viewable, setViewable] = useState([]);
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
-
-    renderRowItem = (item) =>{
-        return(
-            <Card style={{margin:'2%'}} onPress={() => this.GoToPerfil(item.id)}>
-                <View style={{alignItems:'center', margin:'2%'}}>
-                    <Avatar.Image size={150} source={{uri:item.avatar}}/>
-                    <View style={{alignSelf:'center', margin:'5%', alignItems:'center', marginTop:'2%'}}>
-                            <Text style={{fontSize:20,}}>{item.first_name}</Text>
-                            <Text style={{fontSize:15,}}>{item.email}</Text>
-                    </View>
-                </View>
-            </Card>
-        )
-    }
 
     // GetUsersList = async () => {
     //     var usersurl = 'http://gdevskills.test/api/users/1/admin'
@@ -44,12 +31,10 @@ export default function index() {
     async function loadPage(pageNumber = page, shouldRefresh = false) {
         if (pageNumber === total) return;
         if (loading) return;
-        
         setLoading(true);
-        axios
-        .get(`https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=1&limit=4`)
+
+        await api.get('/users/1/admin')
         .then(response => {
-            const totalItems = response.headers["x-total-count"]
             const data = response.data
             console.log(data)
             setLoading(false)
@@ -85,7 +70,6 @@ export default function index() {
                     <FlatList
                         key="list"
                         data={feed} 
-                        renderItem ={renderRowItem}
                         ListFooterComponent={loading && <ActivityIndicator style={{size: "small", marginTop: 20}}/>}
                         onViewableItemsChanged={handleViewableChanged}
                         viewabilityConfig={{
@@ -96,6 +80,20 @@ export default function index() {
                         refreshing={refreshing}
                         onEndReached={() => loadPage()}
                         onEndReachedThreshold={0.1}
+                        renderItem={({item})=> (
+                            <Card style={{margin:'2%'}} onPress={() => this.GoToPerfil(item.id)}>
+                                <View style={{alignItems:'center', margin:'2%'}}>
+                                    <Avatar.Image size={150} source={{uri:item.avatar}}/>
+                                    <View style={{alignSelf:'center', margin:'5%', alignItems:'center', marginTop:'2%'}}>
+                                            <Text style={{fontSize:20,}}>{item.name}</Text>
+                                            <Text style={{fontSize:15,}}>{item.email}</Text>
+                                            <Text style={{fontSize:15,}}>{item.age}</Text>
+                                            <Text style={{fontSize:15,}}>{item.about}</Text>
+                                            <Text style={{fontSize:15,}}>{item.role}</Text>
+                                    </View>
+                                </View>
+                            </Card>
+                        )}
                     />
                 </View>
             </SafeAreaView>

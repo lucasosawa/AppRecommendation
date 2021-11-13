@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getToken} from "../../View/components/Auth";
+import {getToken} from '../../View/components/Screens/Auth'
 import {Alert} from "react-native";
 const api = axios.create({
     baseURL:"http://127.0.0.1:8000/api/",
@@ -13,7 +13,6 @@ api.interceptors.response.use(async (config) =>{
         }
         return config;
     },
-
     error => {
         // Alert.alert{''}
     },

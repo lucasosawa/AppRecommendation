@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { AuthContext } from './AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DrawerMenu, LoginModule } from '../../Routing';
-import { logout } from '../../View/components/Auth';
+import { AuthenticationModule, DrawerMenu, LoginModule, SignUpModule } from '../../Routing';
+import {logout} from '../../View/components/Screens/Auth'
 
 export default function Authentication({ navigation }) {
   const [state, dispatch] = React.useReducer(
@@ -59,6 +59,9 @@ export default function Authentication({ navigation }) {
         dispatch({ type: 'SIGN_IN', token: data });
       },
       signOut: () => dispatch({ type: 'SIGN_OUT' }),
+      signUp: async data => {
+        dispatch({ type: 'SIGN_IN', token: data });
+      }
     }),
     []
   );
@@ -66,7 +69,7 @@ export default function Authentication({ navigation }) {
   return (
     <AuthContext.Provider value={authContext}>
         {state.userToken == null ? (
-          <LoginModule/>
+          <AuthenticationModule/>
         ) : (
           <DrawerMenu/>
         )}
