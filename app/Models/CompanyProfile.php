@@ -9,6 +9,7 @@ class CompanyProfile extends Model
 {
     use HasFactory;
 
+    protected $table = 'company_profile';
     protected $fillable = [
 
     'name',
@@ -18,15 +19,17 @@ class CompanyProfile extends Model
     'category',
     'size',
     'headOffice',
-    'adress',
+    'address',
     'founded',
     'specialty',
+    'user_id',
+    'companyRole'
 
     ];
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
 
     }
     public function vancacies()

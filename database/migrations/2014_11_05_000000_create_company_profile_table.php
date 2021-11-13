@@ -20,12 +20,15 @@ class CreateCompanyProfileTable extends Migration
             $table->mediumText('about');
             $table->string('telephone', 20);
             $table->string('category');
+            $table->string('companyRole');
             $table->string('size');
             $table->string('headOffice');
-            $table->string('adress');
+            $table->string('address');
             $table->date('founded');
             $table->string('specialty');
             $table->string('password')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

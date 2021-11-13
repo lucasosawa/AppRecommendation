@@ -18,8 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('age');
-            $table->string('about');
-            $table->string('role');
+            $table->string('about')->nullable();
+            $table->string('role')->nullable();
             $table->string('status');
             $table->string('telephone', 20);
             $table->string('AcademicEducation');
@@ -30,8 +30,6 @@ class CreateUsersTable extends Migration
             $table->string('gitHub');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
-            $table->unsignedBigInteger('company_id');
-            $table->foreign('company_id')->references('id')->on('company_profile');
             $table->rememberToken();
             $table->timestamps();
         });

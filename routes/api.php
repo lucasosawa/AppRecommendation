@@ -18,12 +18,16 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::post('signup','App\Http\Controllers\Api\UserController@signup')->name('signup.user');
+// http://127.0.0.1:8000/api/users -> post
+// http://127.0.0.1:8000/api/users/id -> update
+
 Route::post('auth/login', 'App\Http\Controllers\Api\AuthController@login')->name('login.user');
 Route::group(['middleware'=> ['apiJwt']],function (){
     Route::post('auth/logout', 'App\Http\Controllers\Api\AuthController@logout')->name('logout.user');
     Route::post('me', 'App\Http\Controllers\Api\AuthController@me');
     Route::get('users/{status}/{role}', 'App\Http\Controllers\Api\UserController@userList')->name('list.users');
+    Route::post('users','App\Http\Controllers\Api\UserController@store')->name('store.user');
+    Route::put('users/{user}','App\Http\Controllers\Api\UserController@update')->name('update.user');
 
 });
 //Route::get('users', 'App\Http\Controllers\Api\UserController@index')->name('all.users');

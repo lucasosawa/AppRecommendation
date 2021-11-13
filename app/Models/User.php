@@ -18,11 +18,20 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-
-        'company_id',
         'name',
         'email',
+        'age',
+        'about',
         'password',
+        'role',
+        'status',
+        'telephone',
+        'AcademicEducation',
+        'interest',
+        'skills',
+        'professionalHistory',
+        'highlights',
+        'gitHub',
     ];
 
     /**
@@ -64,8 +73,8 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function companies_profile()
+    public function companiesProfile()
     {
-        return $this->belongsTo(CompanyProfile::class, 'company_id');
+        return $this->hasMany(CompanyProfile::class);
     }
 }
