@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\PivotVacancie;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -20,18 +21,14 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
-        'age',
-        'about',
         'password',
         'role',
         'status',
         'telephone',
-        'AcademicEducation',
-        'interest',
-        'skills',
-        'professionalHistory',
-        'highlights',
-        'gitHub',
+        'typeUser',
+        'address_id',
+        'profile_id',
+        'company_id'
     ];
 
     /**
@@ -75,6 +72,20 @@ class User extends Authenticatable implements JWTSubject
 
     public function companiesProfile()
     {
-        return $this->hasMany(CompanyProfile::class);
+        return $this->belongsTo(CompanyProfile::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
+
+    public function pivotVacancie(){
+        return $this->hasMany(PivotVacancie::class);
     }
 }

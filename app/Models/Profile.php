@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CompanyProfile extends Model
+class Profile extends Model
 {
     use HasFactory;
 
-    protected $table = 'company_profile';
     protected $fillable = [
+        'age',
         'about',
-        'category',
-        'size',
-        'founded',
-        'specialty'
+        'academicEducation',
+        'interest',
+        'highlights',
+        'skills',
+        'professionalHistory',
+        'gitHub'
     ];
 
     public function user()
@@ -23,4 +25,3 @@ class CompanyProfile extends Model
         return $this->hasOne(User::class);
     }
 }
-

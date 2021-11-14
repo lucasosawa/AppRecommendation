@@ -18,60 +18,45 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-
         try {
-
-                User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-                'age' => $request->age,
-                'about'=> $request->about,
-                'role'=> $request->role,
-                'status'=> $request->status,
-                'telephone'=> $request->telephone,
-                'AcademicEducation'=> $request->AcademicEducation,
-                'interest'=> $request->interest,
-                'skills'=> $request->skills,
-                'professionalHistory'=> $request->professionalHistory,
-                'highlights'=> $request->highlights,
-                'gitHub'=> $request->gitHub
-
-            ]);
+            User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role'=> $request->role,
+            'status'=> $request->status,
+            'telephone'=> $request->telephone,
+            'typeUser'=> $request->typeUser,
+            'address_id'=> $request->address_id,
+            'profile_id'=> $request->profile_id,
+            'company_id'=> $request->company_id,
+        ]);
             return response()->json(['message'=> 'Created successful']);
         }catch (\Exception $e){
-            return response()->json(['message'=> 'Created Failed']);
+            return response()->json(['message'=> 'Created Failed', $e]);
         }
     }
+
     public function update(Request $request,User $user)
     {
         try {
-
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'age' => $request->age,
-                'about'=> $request->about,
                 'role'=> $request->role,
                 'status'=> $request->status,
                 'telephone'=> $request->telephone,
-                'AcademicEducation'=> $request->AcademicEducation,
-                'interest'=> $request->interest,
-                'skills'=> $request->skills,
-                'professionalHistory'=> $request->professionalHistory,
-                'highlights'=> $request->highlights,
-                'gitHub'=> $request->gitHub
-
+                'typeUser'=> $request->typeUser,
+                'address_id'=> $request->address_id,
+                'profile_id'=> $request->profile_id,
+                'company_id'=> $request->company_id,
             ]);
             return response()->json(['message'=> 'Updated successful']);
         }catch (\Exception $e){
             return response()->json(['message'=> 'Updated Failed']);
         }
     }
-
-
-
 
     public function userList($status, $role){
 //         return response()->json($role);

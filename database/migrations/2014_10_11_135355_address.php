@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVacanciesTable extends Migration
+class Address extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateVacanciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('vacancies', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('workNiche');
-            $table->string('occupation');
-            $table->string('requirements');
-            $table->mediumText('description');
-            $table->date('dateEnd');
+            $table->string('city');
+            $table->string('state');
+            $table->string('zipCode');
+            $table->string('district');
+            $table->string('street');
+            $table->string('number');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateVacanciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vacancies');
+        Schema::dropIfExists('addresses');
     }
 }

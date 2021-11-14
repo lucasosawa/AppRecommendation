@@ -15,20 +15,13 @@ class CreateCompanyProfileTable extends Migration
     {
         Schema::create('company_profile', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
             $table->mediumText('about');
-            $table->string('telephone', 20);
             $table->string('category');
-            $table->string('companyRole');
             $table->string('size');
-            $table->string('headOffice');
-            $table->string('address');
             $table->date('founded');
             $table->string('specialty');
-            $table->string('password')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            // $table->unsignedBigInteger('user_id')->nullable();
+            // $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

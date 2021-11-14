@@ -16,77 +16,32 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-
         User::create([
             'name'=> 'Admin',
             'email'=> 'admin@admin.com',
             'password'=> Hash::make('admin@admin.com'),
-            'age'=> '18',
-            'about'=> 'mim',
             'role'=> 'admin',
+            'typeUser'=> 1,
             'status'=> 1,
-            'telephone'=> '2021-09-15 20:42:48',
-            'AcademicEducation'=> '2021-09-15 20:42:48',
-            'interest' => 'Livros',
-            'skills'=>'Graduação',
-            'professionalHistory' => 'Curriculum',
-            'highlights' => 'nao sei',
-            'gitHub' => 'Aptidão',
-
-
-
+            'telephone'=> '11111-1111',
         ]);
-
         User::create([
             'name'=> 'usuario',
             'email'=> 'usuario@usuario.com',
-            'password'=> Hash::make('admin@admin.com'),
-            'age' => '18',
-            'about'=> 'xico',
-            'role'=> 'admin',
+            'password'=> Hash::make('usuario@usuario.com'),
+            'role'=> 'user',
+            'typeUser'=> 2,
             'status'=> 1,
-            'telephone'=> '2021-09-15 20:42:48',
-            'AcademicEducation'=> '2021-09-15 20:42:48',
-            'interest' => 'Livros',
-            'skills'=>'Graduação',
-            'professionalHistory' => 'Curriculum',
-            'highlights' => 'nao sei',
-            'gitHub' => 'Aptidão',
-
+            'telephone'=> '11111-1111',
         ]);
-
         User::create([
-            'name'=> 'usuario2',
-            'email'=> 'usuario2@usuario.com',
-            'password'=> Hash::make('admin@admin.com'),
-            'age'=> 'papai',
-            'about'=> '18',
-            'role'=> 'admin',
+            'name'=> 'contractor',
+            'email'=> 'contractor@contractor.com',
+            'password'=> Hash::make('contractor@contractor.com'),
+            'role'=> 'contractor',
+            'typeUser'=> 3,
             'status'=> 1,
-            'telephone'=> '2021-09-15 20:42:48',
-            'AcademicEducation'=> '2021-09-15 20:42:48',
-            'interest' => 'Livros',
-            'skills'=>'Graduação',
-            'professionalHistory' => 'Curriculum',
-            'highlights' => 'nao sei',
-            'gitHub' => 'Aptidão',
-
-        ]);
-
-        CompanyProfile::create([
-
-            'name' => 'Super Muffato',
-            'email' => 'muffato@muffato.com',
-            'about' => 'maior rede de mercado',
-            'telephone' => '4333541119',
-            'category' => 'Mercado',
-            'size' => 'big',
-            'headOffice' => 'Rua Blue',
-            'address' =>'Rua Blue',
-            'founded' => '2021-09-15',
-            'specialty' => 'produtos',
-            'companyRole' => 'Gerente',
-
+            'telephone'=> '11111-1111',
         ]);
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVacanciesTable extends Migration
+class PivotVacancies extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateVacanciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('vacancies', function (Blueprint $table) {
+        Schema::create('pivot_vacancies', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('workNiche');
-            $table->string('occupation');
-            $table->string('requirements');
-            $table->mediumText('description');
-            $table->date('dateEnd');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('vacancie_id');
+            $table->foreign('vacancie_id')->references('id')->on('vacancies');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateVacanciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vacancies');
+        Schema::dropIfExists('pivot_vacancies');
     }
 }

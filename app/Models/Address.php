@@ -5,22 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CompanyProfile extends Model
+class Address extends Model
 {
     use HasFactory;
 
-    protected $table = 'company_profile';
     protected $fillable = [
-        'about',
-        'category',
-        'size',
-        'founded',
-        'specialty'
+        'city',
+        'state',
+        'zipCode',
+        'district',
+        'street',
+        'number'
     ];
+
 
     public function user()
     {
         return $this->hasOne(User::class);
     }
 }
-
