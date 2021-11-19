@@ -55,7 +55,7 @@ export const HomeModule = ({navigation}) =>{
 
 export const SearchModule = ({navigation}) => {
   return(
-    <SearchStack.Navigator> 
+    <SearchStack.Navigator>
         <SearchStack.Screen name="SearchPage" component={Search} 
         options={{
           title:'Search', 

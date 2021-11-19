@@ -4,6 +4,8 @@ import { ActivityIndicator, Avatar, Card } from 'react-native-paper'
 import { loginStyles } from './styles'
 import axios from 'axios'
 import api from '../../../../helpers/API/api'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getToken } from '../Auth'
 
 export default function index() {
     
@@ -32,9 +34,9 @@ export default function index() {
         if (pageNumber === total) return;
         if (loading) return;
         setLoading(true);
-
         await api.get('/users/1/admin')
         .then(response => {
+            const token = AsyncStorage.getItem('userToken');
             const data = response.data
             console.log(data)
             setLoading(false)

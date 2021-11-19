@@ -13,9 +13,10 @@ export const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        marginTop: 3,
+        marginTop: 15,
         fontWeight: 'bold',
         color: 'white'
+
     },
     caption: {
         fontSize: 14,

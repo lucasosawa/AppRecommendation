@@ -31,7 +31,7 @@ const HomeScreen = () => {
         fetchData('games?ordering=released', '&'),
         fetchData('games?ordering=-metacritic', '&'),
       ])
-      console.log(homeRequests[1])
+      // console.log(homeRequests[1])
       setNewReleases(homeRequests[0])
       setBestScore(homeRequests[1])
     } catch (err) {

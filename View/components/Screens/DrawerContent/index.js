@@ -23,7 +23,7 @@ export function CustomDrawerContent(props) {
                             />
                             <View style={{flexDirection: 'column', marginLeft: 15}}>
                                 <Title style={styles.title}>Lucas Bottine</Title>
-                                <Caption style={styles.caption}>@LucasBottine</Caption>
+                                
                             </View>
                         </View>
                     </View>

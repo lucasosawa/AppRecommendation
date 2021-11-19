@@ -20,9 +20,11 @@ export const loginStyles = StyleSheet.create({
         margin:'5%'
     },
     button: {
+        marginTop:-20,
         paddingLeft: '5%',
         justifyContent: 'center',
         width: '95%',
+        paddingBottom: 30
     },
     
 })
