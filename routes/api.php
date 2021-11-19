@@ -22,13 +22,14 @@ use Illuminate\Support\Facades\Route;
 // http://127.0.0.1:8000/api/users/id -> update
 
 Route::post('auth/login', 'App\Http\Controllers\Api\AuthController@login')->name('login.user');
+Route::post('users','App\Http\Controllers\Api\UserController@store')->name('store.user');
 Route::group(['middleware'=> ['apiJwt']],function (){
     Route::post('auth/logout', 'App\Http\Controllers\Api\AuthController@logout')->name('logout.user');
     Route::post('me', 'App\Http\Controllers\Api\AuthController@me');
 
-    Route::get('users/{status}/{role}', 'App\Http\Controllers\Api\UserController@userList')->name('list.users');
-    Route::post('users','App\Http\Controllers\Api\UserController@store')->name('store.user');
+    Route::get('users/authenticated','App\Http\Controllers\Api\UserController@authUser')->name('current.user');
     Route::put('users/{user}','App\Http\Controllers\Api\UserController@update')->name('update.user');
+    Route::get('users/{status}/{role}', 'App\Http\Controllers\Api\UserController@userList')->name('list.users');
 
     Route::post('vacancies','App\Http\Controllers\Api\VacancieController@store')->name('store.vacancies');
     Route::put('vacancies/{vacancie}','App\Http\Controllers\Api\VacancieController@update')->name('update.vacancies');

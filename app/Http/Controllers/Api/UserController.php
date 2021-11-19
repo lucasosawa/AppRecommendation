@@ -24,7 +24,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'role'=> $request->role,
-            'status'=> $request->status,
+            'status'=> 1,
             'telephone'=> $request->telephone,
             'typeUser'=> $request->typeUser,
             'address_id'=> $request->address_id,
@@ -69,5 +69,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function authUser(){
+        return response()->json(['user_data'=>auth()->user()]);
     }
 }
