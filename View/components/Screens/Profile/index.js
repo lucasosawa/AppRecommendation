@@ -26,9 +26,6 @@ export default function Profile() {
             console.error(err)
         }
     }
-    
-
-    
 
     return (
         <View style={{ flex: 1, backgroundColor: 'grey'}}> 

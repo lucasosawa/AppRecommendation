@@ -53,7 +53,7 @@ export function CustomDrawerContent(props) {
                         style={{marginLeft:13}}
                         onPress={() => {props.navigation.navigate('Profile')}}
                     />
-                    <DrawerItem 
+                    {/* <DrawerItem 
                         icon={({ color, size }) => (
                             <FontAwesome 
                             name="bell" 
@@ -64,7 +64,7 @@ export function CustomDrawerContent(props) {
                         label="Notification"
                         labelStyle={{color:'white'}}
                         onPress={() => {props.navigation.navigate('Notification')}}
-                    />
+                    /> */}
                     <DrawerItem 
                         icon={({ color, size }) => (
                             <FontAwesome 

@@ -1,104 +1,84 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { StyleSheet, Text, View, FlatList, SafeAreaView, Alert } from 'react-native'
-import { ActivityIndicator, Avatar, Card } from 'react-native-paper'
-import { loginStyles } from './styles'
+import React, { Component, useState, useContext, useEffect } from 'react'
+import { Text, View, SafeAreaView, ScrollView, TouchableOpacity, Alert } from 'react-native'
+import { TextInput, Button } from 'react-native-paper'
+import { Feather } from '@expo/vector-icons'
+import postDataLaravel from '../../../../helpers/API/fetchLaravel'
 import axios from 'axios'
+import { VagaContext } from '../../../../context/VagasContext'
 import api from '../../../../helpers/API/api'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { getToken } from '../Auth'
 
 export default function index() {
-    
-    const [error, setError] = useState('');
-    const [feed, setFeed] = useState([]);
-    const [page, setPage] = useState(1);
-    const [total, setTotal] = useState(0);
-    const [viewable, setViewable] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [refreshing, setRefreshing] = useState(false);
+    // Setting the tab in vagas screen
+    const [vagasTab, setVagasTab] = useState(1)
+    // Getting index from map function to pass to child component
+    const [ data, setData ] = useState(null)
+    const [ dataRole, setDataRole ] = useState('')
+    const [ dataName, setDataName ] = useState('')
+    // Showing the content from vagas
+    const [ userlist, setUserList ] = useState([])
 
-    GetUsersList = async () => {
-        var usersurl = 'http://gdevskills.test/api/users/1/admin'
-
-        await axios.get(usersurl)
-        .then((response) => {
-        console.log(response)
-            this.setState({
-                userList:[...this.state.userList, {...response.data}],
+    const getDataUsersList = async () => {
+        try {
+            api.post('search/users').then((response) => {
+                setUserList(response.data)
             })
-            console.log(this.state.userList);
-        }).catch((error)=>{console.log(error)})
+        } catch (err) {
+            console.error(err)
+        }
     }
 
-    async function loadPage(pageNumber = page, shouldRefresh = false) {
-        if (pageNumber === total) return;
-        if (loading) return;
-        setLoading(true);
-        await api.get('/users/1/admin')
-        .then(response => {
-            const data = response.data
-            console.log(data)
-            setLoading(false)
-            setTotal(Math.floor(totalItems / 4));
-            setPage(pageNumber + 1);
-            setFeed(shouldRefresh ? data : [...feed, ...data]);
-        })
-        .catch(err => {
-            setError(err.message);
-            setLoading(true)
-        })
+    const handleSubmitVacancies = (e) => {
+        e.preventDefault()
+        const form = new FormData();
+        form.append('role', dataRole); 
+        form.append('name', dataName);
+        try {
+            api.post('search/users', form).then((response) => {
+                setUserList(response.data)
+            })
+        } catch (err) {
+            console.error(err)
+        }
+
     }
 
-    async function refreshList() {
-        setRefreshing(true);
-        
-        await loadPage(1, true);
-
-        setRefreshing(false);
-    }
-    
     useEffect(() => {
-        loadPage()
-    }, []);
-
-    const handleViewableChanged = useCallback(({ changed }) => {
-        setViewable(viewable.map(({ item }) => item.id));
-    }, []);
-
-    return (
-            <SafeAreaView style={loginStyles.container}>
-                <View style={loginStyles.container}>
-                    <FlatList
-                        key="list"
-                        data={feed} 
-                        ListFooterComponent={loading && <ActivityIndicator style={{size: "small", marginTop: 20}}/>}
-                        onViewableItemsChanged={handleViewableChanged}
-                        viewabilityConfig={{
-                            viewAreaCoveragePercentThreshold: 10,
-                        }}
-                        showsVerticalScrollIndicator={false}
-                        onRefresh={refreshList}
-                        refreshing={refreshing}
-                        onEndReached={() => loadPage()}
-                        onEndReachedThreshold={0.1}
-                        renderItem={({item})=> (
-                            <Card style={{margin:'2%'}} onPress={() => this.GoToPerfil(item.id)}>
-                                <View style={{alignItems:'center', margin:'2%'}}>
-                                    <Avatar.Image size={150} source={{uri:item.avatar}}/>
-                                    <View style={{alignSelf:'center', margin:'5%', alignItems:'center', marginTop:'2%'}}>
-                                            <Text style={{fontSize:20,}}>{item.name}</Text>
-                                            <Text style={{fontSize:15,}}>{item.email}</Text>
-                                            <Text style={{fontSize:15,}}>{item.age}</Text>
-                                            <Text style={{fontSize:15,}}>{item.about}</Text>
-                                            <Text style={{fontSize:15,}}>{item.role}</Text>
-                                    </View>
-                                </View>
-                            </Card>
-                        )}
-                    />
-                </View>
+        getDataUsersList()
+        return () => {
+          setDataRole(null)
+          setDataName(null)
+          setUserList(null)
+        }
+    }, [])
+        return (
+            <SafeAreaView style={{backgroundColor: '#1c1b18', flex:1}}>
+                <ScrollView>
+                    <View>
+                        {<>
+                            <View style={{flexDirection:'row', marginLeft:5}}>
+                                <TextInput onChangeText={(value) => {setDataRole(value)}} theme={{ colors: { primary: '#000'}}} mode={'outlined'} placeholder={"Pesquisar por tipo"} style={{width:'50%'}}/>
+                                <TextInput onChangeText={(value) => {setDataName(value)}} theme={{ colors: { primary: '#000'}}} mode={'outlined'} placeholder={"Pesquisar por cargo"} style={{width:'50%'}}/>
+                            </View>
+                            <Button onPress={ (e) => { handleSubmitVacancies(e) } } style={{color:"white", marginTop: 20, marginLeft:10}}>Todos os usuários</Button>
+                            {userlist && userlist.length > 0 ?
+                                userlist.map((index, i) => {
+                                    return(
+                                        <>
+                                            <View key={i.toString()} style={{ flexDirection: 'row',justifyContent:'space-between', alignItems:'center', marginBottom:20}} >
+                                                <View style={{flexDirection: 'row' ,alignItems:'center', flex:1, marginTop:30, marginLeft:20, borderRadius:10, borderColor:'white'}}>
+                                                    <Text style={{color:"grey", width:'80%', height:40, fontSize:15, fontWeight: 'bold'}}>Nome do usuário: {index.name}</Text>
+                                                    <Text style={{color:"grey", width:'80%', height:40, fontSize:15, fontWeight: 'bold'}}>Cargo do usuário: {index.role}</Text>
+                                                </View>
+                                            </View>
+                                        </>
+                                    )
+                                })
+                            :
+                                ''
+                            }
+                        </>}
+                    </View>
+                </ScrollView>
             </SafeAreaView>
         )
     }
-
-
