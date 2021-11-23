@@ -20,8 +20,7 @@ export default function Authentication({ navigation }) {
             isSignout: false,
             userToken: action.token,
           };
-        case 'SIGN_OUT':
-          logout()
+          case 'SIGN_OUT':
           return {
             ...prevState,
             isSignout: true,

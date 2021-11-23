@@ -17,18 +17,18 @@ export default function index() {
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
 
-    // GetUsersList = async () => {
-    //     var usersurl = 'http://gdevskills.test/api/users/1/admin'
+    GetUsersList = async () => {
+        var usersurl = 'http://gdevskills.test/api/users/1/admin'
 
-    //     await axios.get(usersurl)
-    //     .then((response) => {
-    //     console.log(response)
-    //     //     this.setState({
-    //     //         userList:[...this.state.userList, {...response.data}],
-    //     //     })
-    //     //     console.log(this.state.userList);
-    //     }).catch((error)=>{console.log(error)})
-    // }
+        await axios.get(usersurl)
+        .then((response) => {
+        console.log(response)
+            this.setState({
+                userList:[...this.state.userList, {...response.data}],
+            })
+            console.log(this.state.userList);
+        }).catch((error)=>{console.log(error)})
+    }
 
     async function loadPage(pageNumber = page, shouldRefresh = false) {
         if (pageNumber === total) return;
@@ -36,7 +36,6 @@ export default function index() {
         setLoading(true);
         await api.get('/users/1/admin')
         .then(response => {
-            const token = AsyncStorage.getItem('userToken');
             const data = response.data
             console.log(data)
             setLoading(false)

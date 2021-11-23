@@ -6,6 +6,7 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 import {SearchProvider} from '../context/SearchContext'
 import {HomeProvider} from '../context/HomeContext'
+import { VagasProvider } from '../context/VagasContext';
 
 import SearchProfile from '../View/components/Screens/SearchProfile'
 import Login from '../View/components/Screens/Login'
@@ -81,6 +82,7 @@ export const SearchModule = ({navigation}) => {
   
 export const BottomTab = ({navigation}) =>{
   return(
+    <VagasProvider>
     <BottomStack.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -107,29 +109,42 @@ export const BottomTab = ({navigation}) =>{
       return(
         <MaterialIcons name='menu' size={24} color={'white'} style={{marginLeft:'10%'}} onPress={() => navigation.toggleDrawer()}/>
       )}}}/>
-      <BottomStack.Screen name="Vaga" component={Vaga} 
-      options={{
-        title:'Vaga', 
-        headerTitleAlign:'center',
-        headerStyle:{backgroundColor:'black'},
-        headerTitleStyle:{color:'white'},
-      headerLeft : () =>{
-        return(
-          <MaterialIcons name='menu' size={24} color={'white'} style={{marginLeft:'10%'}} onPress={() => navigation.toggleDrawer()}/>
-        )
-      }}}/>
+      
+        <BottomStack.Screen name="Vaga" component={Vaga} 
+        options={{
+          title:'Vaga', 
+          headerTitleAlign:'center',
+          headerStyle:{backgroundColor:'black'},
+          headerTitleStyle:{color:'white'},
+        headerLeft : () =>{
+          return(
+            <MaterialIcons name='menu' size={24} color={'white'} style={{marginLeft:'10%'}} onPress={() => navigation.toggleDrawer()}/>
+          )
+        }}}/>
+      
       <BottomStack.Screen name="Search" component={SearchModule} options={{headerTitleAlign:'center', headerShown:false}}/>
     </BottomStack.Navigator>
+    </VagasProvider>
     )
   }
   
-export const DrawerMenu = () =>{
+export const DrawerMenu = ({navigation}) =>{
   return(
     <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="HomePage" component={BottomTab} options={{headerShown:false}}/>
-      <Drawer.Screen name="Profile" component={Profile} options={{headerTitleAlign:'center'}}/>
+      <Drawer.Screen name="Profile" component={Profile} options={{headerTitleAlign:'center'}} options={{headerShown:false}} options={{
+          title:'Profile', 
+          headerTitleAlign:'center',
+          headerStyle:{backgroundColor:'black'},
+          headerTitleStyle:{color:'white'},
+        // headerLeft : () =>{
+        //   return(
+        //     <MaterialIcons name='menu' size={24} color={'white'} style={{marginLeft:'10%'}} onPress={() => navigation.toggleDrawer()}/>
+        //   )
+        // }
+      }}/>
       <Drawer.Screen name="Notification" component={Notification} options={{headerTitleAlign:'center'}}/>
-      <Drawer.Screen name="Settings" component={Settings} options={{headerTitleAlign:'center'}}/>
+      {/* <Drawer.Screen name="Settings" component={Settings} options={{headerTitleAlign:'center'}}/> */}
     </Drawer.Navigator>
   )
 }

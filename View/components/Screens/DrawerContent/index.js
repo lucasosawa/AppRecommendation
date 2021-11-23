@@ -5,6 +5,7 @@ import { AuthContext } from '../../../../helpers/authentication/AuthContext'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList,} from '@react-navigation/drawer';
 import { Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch } from 'react-native-paper';
 import {styles} from './styles'
+import { logout } from '../Auth';
 
 export function CustomDrawerContent(props) {
     
@@ -23,7 +24,6 @@ export function CustomDrawerContent(props) {
                             />
                             <View style={{flexDirection: 'column', marginLeft: 15}}>
                                 <Title style={styles.title}>Lucas Bottine</Title>
-                                
                             </View>
                         </View>
                     </View>
@@ -77,18 +77,6 @@ export function CustomDrawerContent(props) {
                         labelStyle={{color:'white'}}
                         onPress={() => {props.navigation.navigate('Vaga')}}
                     />
-                    <DrawerItem 
-                        icon={({ color, size }) => (
-                            <Ionicons 
-                            name="settings" 
-                            color={'white'} 
-                            size={size}
-                            />
-                        )}
-                        label="Settings"
-                        labelStyle={{color:'white'}}
-                        onPress={() => {props.navigation.navigate('Settings')}}
-                    />
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>
@@ -103,7 +91,10 @@ export function CustomDrawerContent(props) {
                     )}
                     label="Sign out"
                     labelStyle={{color:'white'}}
-                    onPress={() => signOut()}
+                    onPress={() => {
+                        logout()
+                        signOut()
+                    }}
                 />
             </Drawer.Section>
         </View>

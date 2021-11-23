@@ -5,9 +5,8 @@ import { loginStyles } from './styles'
 import { AuthContext } from '../../../../helpers/authentication/AuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import api from '../../../../helpers/API/api'
-import {Picker} from '@react-native-picker/picker'
 import { DropDown } from '../UpdateSignUp'
-import { set } from 'react-native-reanimated'
+
 
 export default class index extends Component {
     static contextType = AuthContext
@@ -61,9 +60,6 @@ export default class index extends Component {
                 default:
                   Alert.alert("Role not");
             }
-           
-            
-
             await api.post('users', form)
             .then((response) => {
                 Alert.alert('Cadastrado com sucesso')

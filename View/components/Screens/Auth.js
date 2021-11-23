@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from '../../../helpers/API/api'
 
 
 export async function login(token){
@@ -15,6 +16,7 @@ export const getToken = async ()=>{
 }
 
 export async function logout(){
+    await api.post('auth/logout')
     return await AsyncStorage.removeItem('userToken')
 }
 

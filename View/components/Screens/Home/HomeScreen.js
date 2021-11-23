@@ -15,16 +15,6 @@ const HomeScreen = () => {
   const [newReleases, setNewReleases] = releases
   const [bestScore, setBestScore] = score
 
-  // const getData = () => {
-  //     axios.all([
-  //       fetchData('games?ordering=released', '&'),
-  //       fetchData('games?ordering=-metacritic', '&'),
-  //     ]).then((response)=> {
-  //       setNewReleases(response[0])
-  //       setBestScore(response[1])
-  //     })
-  // }
-
   const getData = async () => {
     try {
       const homeRequests = await axios.all([
