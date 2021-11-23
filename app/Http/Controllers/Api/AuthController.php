@@ -29,11 +29,6 @@ class AuthController extends Controller
 
     }
 
-    public function me()
-    {
-        return response()->json(auth('api')->user());
-    }
-
     public function logout()
     {
         auth('api')->logout();
@@ -46,7 +41,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 10000000
+            'expires_in' => auth('api')->factory()->getTTL() * 99999999999999999999
         ]);
     }
 }

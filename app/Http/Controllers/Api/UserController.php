@@ -27,9 +27,6 @@ class UserController extends Controller
             'status'=> 1,
             'telephone'=> $request->telephone,
             'typeUser'=> $request->typeUser,
-            'address_id'=> $request->address_id,
-            'profile_id'=> $request->profile_id,
-            'company_id'=> $request->company_id,
         ]);
             return response()->json(['message'=> 'Created successful']);
         }catch (\Exception $e){
@@ -48,10 +45,16 @@ class UserController extends Controller
                 'status'=> $request->status,
                 'telephone'=> $request->telephone,
                 'typeUser'=> $request->typeUser,
-                'address_id'=> $request->address_id,
-                'profile_id'=> $request->profile_id,
-                'company_id'=> $request->company_id,
             ]);
+            // if($request->address_id){
+                $user->updateOrCreateAddress($user, $request);
+            // }
+            if($request->typeUser == 2){
+                $user->updateOrCreateProfile($user, $request);
+            }
+            if($request->typeUser == 4){
+                $user->updateOrCreateCompanyProfile($user, $request);
+            }
             return response()->json(['message'=> 'Updated successful']);
         }catch (\Exception $e){
             return response()->json(['message'=> 'Updated Failed']);
@@ -59,11 +62,14 @@ class UserController extends Controller
     }
 
     public function userList($status, $role){
-//         return response()->json($role);
-        $users = User::where('status', $status)->where('role', $role)->get();
-
-        return response()->json($users);
-
+        $users = User::where('status', 1)
+        ->when(request()->role, function($query){
+            return $query->where('role', request()->role);
+        })
+        ->when(request()->name, function($query){
+            return $query->where('name', request()->name);
+        })
+        ->get();
     }
 
     public function destroy($id)
@@ -72,6 +78,7 @@ class UserController extends Controller
     }
 
     public function authUser(){
-        return response()->json(['user_data'=>auth()->user()]);
+        $user = User::where('id', auth()->user()->id)->with(['address', 'profile', 'companiesProfile'])->first();
+        return response()->json($user);
     }
 }

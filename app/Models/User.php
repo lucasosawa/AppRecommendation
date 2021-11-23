@@ -88,4 +88,65 @@ class User extends Authenticatable implements JWTSubject
     public function pivotVacancie(){
         return $this->hasMany(PivotVacancie::class);
     }
+
+    public function updateOrCreateProfile($user, $request){
+        $profile = Profile::updateOrCreate(
+        [
+            'id' => $user->profile_id
+        ],
+        [
+            'age' => '',
+            'about' => '',
+            'academicEducation' => '',
+            'interest' => '',
+            'highlights' => '',
+            'skills' => '',
+            'professionalHisto' => '',
+            'gitHub' => ''
+        ]);
+        $user->company_id = null;
+        $user->profile_id = $profile->id;
+        $user->save();
+    return true;
+}
+
+public function updateOrCreateCompanyProfile($user, $request){
+        $profile = $user->profile_id;
+        $company = CompanyProfile::updateOrCreate(
+        [
+            'id' => $user->company_id
+        ],
+        [
+            'about' => '',
+            'category' => '',
+            'size' => '',
+            'founded' => '',
+            'specialty' => '',
+        ]);
+
+        $user->profile_id = null;
+        Profile::where('id', $profile)->delete();
+        $user->company_id = $company->id;
+        $user->save();
+    return true;
+}
+
+public function updateOrCreateAddress($user, $request){
+        $address = Address::updateOrCreate(
+        [
+            'id' => $user->address_id
+        ],
+        [
+            'city' => '',
+            'state' => '',
+            'zipCode' => '',
+            'district' => '',
+            'street' => '',
+            'number' => '',
+        ]);
+        $user->address_id = $address->id;
+        $user->save();
+    return true;
+}
+
 }

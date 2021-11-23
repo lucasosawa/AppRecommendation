@@ -11,28 +11,19 @@ use App\Models\PivotVacancie;
 
 class VacancieController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index($workNiche, $occupation)
+    public function index()
     {
-        $Vacancies = Vacancies::where('workNiche', $workNiche)->orWhere('occupation', $occupation)->get();
+        $Vacancies = Vacancies::when(request()->workNiche, function($query){
+            return $query->orWhere('workNiche', request()->workNiche);
+        })
+        ->when(request()->occupation, function($query){
+            return $query->orWhere('occupation', request()->occupation);
+        })
+        ->get();
+
         return response()->json($Vacancies);
     }
 
-    public function vacancieApply(){
-        $Vacancies = PivotVacancie::with('user', 'vacancie')->where('user_id', 2)->get();
-        return response()->json($Vacancies);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         try {
@@ -50,24 +41,7 @@ class VacancieController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Vacancies $Vacancie)
     {
         try {
@@ -84,12 +58,11 @@ class VacancieController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function show(Vacancies $vacancie)
+    {
+        return response()->json($vacancie);
+    }
+
     public function destroy($id)
     {
         try {

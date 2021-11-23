@@ -10,6 +10,11 @@ class PivotVacancie extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'vacancie_id'
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -17,6 +22,11 @@ class PivotVacancie extends Model
     public function vacancie()
     {
         return $this->belongsTo(Vacancies::class);
+    }
+
+    public function scopeValidateUserVacancieIfExists($query, $vacancie){
+        return $query->where('vacancie_id', $vacancie->id)
+        ->where('user_id', auth()->user()->id)->count();
     }
 
 }
