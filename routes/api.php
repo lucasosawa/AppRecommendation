@@ -36,6 +36,7 @@ Route::group(['middleware'=> ['apiJwt']],function (){
     // Search User by Role and Name
     Route::get('users', 'App\Http\Controllers\Api\UserController@userList')->name('list.users');
 
+    Route::post('search/vacancies','App\Http\Controllers\Api\VacancieController@index')->name('index.vacancies');
     // Search the vacancie by workNiche or occupation / or both of them
     Route::get('vacancies','App\Http\Controllers\Api\VacancieController@index')->name('index.vacancies');
     // Create/Update/Delete
